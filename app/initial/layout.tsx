@@ -1,4 +1,4 @@
-export default function LayoutAuth({
+export default function LayoutInitial({
   children,
 }: {
   children: React.ReactNode;
