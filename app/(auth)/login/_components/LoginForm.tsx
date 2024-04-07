@@ -1,6 +1,6 @@
 "use client";
 
-import { LoginSchema, RegisterSchema } from "@/lib/validations";
+import { LoginSchema } from "@/lib/validations";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -19,10 +19,10 @@ import { FaRegEyeSlash, FaEye } from "react-icons/fa";
 import { useState, useTransition } from "react";
 
 import { CgDanger } from "react-icons/cg";
-import { CiCircleCheck } from "react-icons/ci";
 
 import { FormState } from "@/components/reusable/FormState";
 import { login } from "@/actions/login";
+import { Loading } from "@/components/reusable/Loading";
 
 type RegisterValidation = z.infer<typeof LoginSchema>;
 
@@ -115,7 +115,7 @@ export function LoginForm() {
         )}
 
         <Button type="submit" className="w-full">
-          Entrar
+          {isPending ? <Loading size="medium" /> : "Entrar"}
         </Button>
       </form>
     </Form>

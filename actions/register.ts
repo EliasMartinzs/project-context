@@ -2,10 +2,10 @@
 
 import * as z from "zod";
 
-import { RegisterSchema } from "@/schemas";
 import bcryptjs from "bcryptjs";
 import { db } from "@/lib/db";
 import { getUserByEmail } from "@/data/user";
+import { RegisterSchema } from "@/lib/validations";
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
   const validatedFields = RegisterSchema.safeParse(values);
@@ -14,7 +14,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
     return { error: "Campos de entrada invalídos!" };
   }
 
-  const { email, name, password } = validatedFields.data;
+  const { email, password, name } = validatedFields.data;
 
   const hashedPassword = await bcryptjs.hash(password, 10);
 

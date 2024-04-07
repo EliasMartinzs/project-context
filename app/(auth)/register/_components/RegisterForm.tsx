@@ -22,6 +22,8 @@ import { register } from "@/actions/register";
 
 import { CgDanger } from "react-icons/cg";
 import { CiCircleCheck } from "react-icons/ci";
+import { Loading } from "@/components/reusable/Loading";
+import { useRouter } from "next/navigation";
 
 type RegisterValidation = z.infer<typeof RegisterSchema>;
 
@@ -30,12 +32,12 @@ export function RegisterForm() {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   const form = useForm<RegisterValidation>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
+      name: "",
       email: "",
       password: "",
     },
@@ -45,7 +47,12 @@ export function RegisterForm() {
     startTransition(() => {
       register(data).then((value) => {
         setError(value.error);
-        setSuccess(value.success);
+        setSuccess(value.sucess);
+
+        if (value.sucess) {
+          router.push("/login");
+        }
+
         form.reset();
       });
     });
@@ -54,34 +61,19 @@ export function RegisterForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="flex gap-x-2">
-          <FormField
-            control={form.control}
-            name="firstName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Nome</FormLabel>
-                <FormControl>
-                  <Input {...field} disabled={isPending} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="lastName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Sobrenome</FormLabel>
-                <FormControl>
-                  <Input {...field} disabled={isPending} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Nome completo</FormLabel>
+              <FormControl>
+                <Input {...field} disabled={isPending} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <FormField
           control={form.control}
@@ -155,7 +147,7 @@ export function RegisterForm() {
         )}
 
         <Button type="submit" className="w-full">
-          Registrar
+          {isPending ? <Loading size="medium" /> : "Registrar-se"}
         </Button>
       </form>
     </Form>

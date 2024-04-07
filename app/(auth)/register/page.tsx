@@ -6,7 +6,7 @@ import { FormWrapper } from "@/components/reusable/FormWrapper";
 
 export default function Register() {
   return (
-    <div className="w-full min-h-svh lg:pt-20 center background">
+    <div className="w-full min-h-svh lg:pt-20 center">
       <FormWrapper
         title="Registrar-se"
         subTitle="Já tem uma conta no Context?"
