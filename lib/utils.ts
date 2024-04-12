@@ -18,3 +18,15 @@ export function isBase64Image(imageData: string) {
   const base64Regex = /^data:image\/(png|jpe?g|gif|webp);base64,/;
   return base64Regex.test(imageData);
 }
+
+export const fisrtLetters = (fullname: string) => {
+  const name = fullname.split(/\s+/);
+
+  const initials = name
+    .filter((parte) => parte)
+    .map((parte) => parte.charAt(0))
+    .slice(0, 2)
+    .join("");
+
+  return initials;
+};

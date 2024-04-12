@@ -1,25 +1,27 @@
 import { Logout } from "@/components/reusable/Logout";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import Image from "next/image";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ModeToggle } from "@/components/reusable/ModeToggle";
 
 import { EditIcon, LogOutIcon } from "lucide-react";
 import { menuIcons } from "@/constants";
 import Link from "next/link";
 import { IoAddCircleOutline } from "react-icons/io5";
+import { getAllServicesByUser } from "@/data/service";
 
 export async function MenuItems() {
   const user = await useCurrentUser();
+  const servicesUser = await getAllServicesByUser(user?.id);
 
   return (
     <aside className="py-10 space-y-10">
       <div className="center flex-col gap-y-4">
         <div className="relative w-24 h-24 rounded-full">
           <Image
-            src={user?.image ?? ""}
+            src={user?.image ?? "/no-user.webp"}
             alt={user?.name ?? ""}
             className="object-cover object-center rounded-full"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             fill
           />
         </div>
@@ -32,18 +34,8 @@ export async function MenuItems() {
 
       <div className="flex items-center">
         <div className="flex-1 center flex-col text-center">
-          <span className="text-2xl font-medium">15</span>
-          <span className="font-light">Post</span>
-        </div>
-
-        <div className="flex-1 center flex-col text-center">
-          <span className="text-2xl font-medium">15</span>
+          <span className="text-2xl font-medium">{user?.serviceCount}</span>
           <span className="font-light">Serviços</span>
-        </div>
-
-        <div className="flex-1 center flex-col text-center">
-          <span className="text-2xl font-medium">15</span>
-          <span className="font-light">Seguidores</span>
         </div>
       </div>
 
@@ -51,7 +43,7 @@ export async function MenuItems() {
         {menuIcons.map(({ icon, href }) => {
           const Icon = icon;
           return (
-            <Link href={href} className="flex-1 center">
+            <Link key={href} href={href} className="flex-1 center">
               <Icon className="w-7 h-7" />
             </Link>
           );
@@ -64,23 +56,31 @@ export async function MenuItems() {
         </Link>
       </div>
 
-      <div className="center">
-        <Tabs defaultValue="services" className="center flex-col gap-y-4">
-          <TabsList>
-            <TabsTrigger className="text-lg" value="services">
-              Serviços
-            </TabsTrigger>
-            <div className="w-[1px] h-full bg-border" />
-            <TabsTrigger className="text-lg" value="post">
-              Posts
-            </TabsTrigger>
-          </TabsList>
-          <TabsContent value="services"></TabsContent>
-          <TabsContent value="post">Change your password here.</TabsContent>
-        </Tabs>
+      <div className="center flex-col gap-y-6">
+        <h6 className="font-medium">Meus serviços</h6>
+
+        <div className="center flex-wrap gap-5">
+          {servicesUser.services !== undefined &&
+            servicesUser.services.map((service) => (
+              <Link
+                href={`/service/${service?.id}`}
+                key={service.id}
+                className="center flex-col gap-y-2"
+              >
+                <Image
+                  src={service?.photo ?? ""}
+                  alt={service?.title ?? ""}
+                  className="object-cover object-center"
+                  width={100}
+                  height={100}
+                />
+                <small>{service?.title}</small>
+              </Link>
+            ))}
+        </div>
       </div>
 
-      <Link href="/newUser" className="absolute inset-y-0 right-0 m-3">
+      <Link href="/new-user" className="absolute inset-y-0 right-0 m-3">
         <EditIcon className="cursor-pointer" />
       </Link>
 

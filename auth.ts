@@ -13,7 +13,7 @@ export const {
   pages: {
     signIn: "/login",
     error: "/error",
-    newUser: "/newUser",
+    newUser: "/new-user",
   },
   events: {
     async linkAccount({ user }) {

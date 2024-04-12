@@ -1,10 +1,13 @@
 import React from "react";
 import Steps from "./_components/Steps";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
-export default function page() {
+export default async function page() {
+  const user = await useCurrentUser();
+
   return (
     <div>
-      <Steps />
+      <Steps userId={user?.id} />
     </div>
   );
 }

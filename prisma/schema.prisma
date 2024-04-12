@@ -51,6 +51,7 @@ model User {
   birthday      String?
   gender        String?
   services      Service[]
+  serviceCount  Int       @default(0)
 }
 
 model VerificationToken {
@@ -65,12 +66,14 @@ model Service {
   id          String         @id @default(cuid())
   title       String
   description String
+  observation String?
   price       Float
   photo       String?
   categories  Category[]
   userId      String
   user        User           @relation(fields: [userId], references: [id])
   extras      ServiceExtra[]
+  createdAt   DateTime       @default(now())
 }
 
 model ServiceExtra {

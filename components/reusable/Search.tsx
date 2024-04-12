@@ -1,13 +1,23 @@
 "use client";
-import { ChevronUpCircle } from "lucide-react";
 import React, { useState } from "react";
-import { CgClose } from "react-icons/cg";
 import { CiSearch } from "react-icons/ci";
 import { TbChevronCompactUp } from "react-icons/tb";
 import { cn } from "../../lib/utils";
+import { useRouter } from "next/navigation";
 
 export function Search() {
   const [isOpen, setIsOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const router = useRouter();
+
+  const handleSearch = () => {
+    if (searchTerm.trim() !== "") {
+      router.push(`/search/${encodeURIComponent(searchTerm.trim())}`);
+
+      setIsOpen(false);
+    }
+  };
 
   return (
     <>
@@ -15,9 +25,11 @@ export function Search() {
         <input
           className="border-input border rounded-md px-4 py-2 h-12 bg-transparent w-96  outline-none focus:border-border"
           placeholder="Buscar..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
         <div className="border h-12 rounded-md center px-3 hover:border-none hover:bg-foreground hover:text-background cursor-pointer transition-colors">
-          <CiSearch className="w-6 h-6" />
+          <CiSearch className="w-6 h-6" onClick={handleSearch} />
         </div>
       </div>
 
@@ -38,9 +50,11 @@ export function Search() {
           <input
             className="border-input border rounded-lg px-4 py-3 h-12 bg-transparent flex-1 ml-5 outline-none focus:border-border"
             placeholder="Buscar..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
           <div className="h-12 center px-3 mr-5 cursor-pointer hover:bg-foreground hover:text-background rounded-lg transition-colors">
-            <CiSearch className="w-6 h-6" />
+            <CiSearch className="w-6 h-6" onClick={handleSearch} />
           </div>
         </div>
 

@@ -36,8 +36,7 @@ import Link from "next/link";
 import { updateUserProfile } from "@/actions/user";
 import { toast } from "sonner";
 import { User } from "@prisma/client";
-import { format } from "date-fns";
-import { isBase64Image, UploadButton } from "@/lib/utils";
+import { isBase64Image } from "@/lib/utils";
 import { useUploadThing } from "@/lib/uploadthing";
 
 type validationNewUser = z.infer<typeof updateNewUserSchema>;
@@ -119,15 +118,17 @@ export default function NewUserForm({ user }: Props) {
       }
     }
 
-    updateUserProfile(data, user?.email ?? "")
-      .then((value) => {
-        setHasChanged(false);
-        toast(value?.sucess);
-        form.reset();
-      })
-      .catch((error) => {
-        toast.error("Erro ao salvar perfil");
-      });
+    startTransition(async () => {
+      updateUserProfile(data, user?.email ?? "")
+        .then((value) => {
+          setHasChanged(false);
+          toast(value?.sucess);
+          form.reset();
+        })
+        .catch((error) => {
+          toast.error("Erro ao salvar perfil");
+        });
+    });
   };
 
   const isFormEmpty = () => {
@@ -163,6 +164,7 @@ export default function NewUserForm({ user }: Props) {
                           <>
                             <Image
                               src={field.value}
+                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                               fill
                               alt={"img"}
                               className="object-fit rounded-full"
@@ -187,6 +189,7 @@ export default function NewUserForm({ user }: Props) {
                                   alt={user?.name ?? ""}
                                   src={user?.image}
                                   className="rounded-full"
+                                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                 />
                                 <input
                                   ref={inputRef}

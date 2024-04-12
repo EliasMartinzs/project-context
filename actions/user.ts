@@ -46,7 +46,7 @@ export const updateUserProfile = async (
       },
     });
 
-    revalidatePath("/newUser");
+    revalidatePath("/new-user");
     revalidatePath("/explorer");
 
     return { sucess: "Dados atualizados" };

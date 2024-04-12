@@ -1,5 +1,4 @@
 import { Header } from "./_components/Header";
-import { Menu } from "./_components/Menu";
 
 export default function LayoutInitial({
   children,
