@@ -1,7 +1,7 @@
 "use client";
 
 import { FormWrapper } from "@/components/reusable/FormWrapper";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import { SSO } from "@/components/reusable/SSO";
 import { LoginForm } from "./_components/LoginForm";
@@ -22,24 +22,26 @@ export default function Login() {
   }, [errors]);
 
   return (
-    <div className="w-full min-h-svh lg:pt-20 center">
-      <FormWrapper
-        title="Entrar"
-        subTitle="Não tem uma conta Context?"
-        href="/register"
-        buttonTitle="Crie uma"
-      >
-        {error && (
-          <FormState
-            text={error ?? ""}
-            style="border border-error text-error rounded-xl shadow-inner"
-            icon={CgDanger}
-          />
-        )}
-        <LoginForm />
-        <Separator />
-        <SSO />
-      </FormWrapper>
-    </div>
+    <Suspense>
+      <div className="w-full min-h-svh lg:pt-20 center">
+        <FormWrapper
+          title="Entrar"
+          subTitle="Não tem uma conta Context?"
+          href="/register"
+          buttonTitle="Crie uma"
+        >
+          {error && (
+            <FormState
+              text={error ?? ""}
+              style="border border-error text-error rounded-xl shadow-inner"
+              icon={CgDanger}
+            />
+          )}
+          <LoginForm />
+          <Separator />
+          <SSO />
+        </FormWrapper>
+      </div>
+    </Suspense>
   );
 }
