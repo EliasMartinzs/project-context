@@ -35,9 +35,9 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { updateUserProfile } from "@/actions/user";
 import { toast } from "sonner";
-import { User } from "@prisma/client";
 import { isBase64Image } from "@/lib/utils";
 import { useUploadThing } from "@/lib/uploadthing";
+import { User } from "@prisma/client";
 
 type validationNewUser = z.infer<typeof updateNewUserSchema>;
 

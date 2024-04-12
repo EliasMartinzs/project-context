@@ -1,5 +1,4 @@
 import { UserCard } from "@/components/reusable/UserCard";
-import { Category, Service, ServiceExtra } from "@prisma/client";
 
 import Image from "next/image";
 

@@ -2,8 +2,6 @@
 
 import { db } from "@/lib/db";
 import { ServiceFormData } from "@/lib/interfaces";
-import { GetAllServicesResponse, GetServiceById } from "@/lib/types";
-import { Category, ServiceExtra, User } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
